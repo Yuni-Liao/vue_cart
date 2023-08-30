@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    <div id="app">
     <header>
         <div class="pic">
             <a href="index.html">
@@ -27,23 +28,8 @@
         </div>
         <nav>
             <ul>
-                <li>
-                    <a href="#">最新消息</a>
-                </li>
-                <li>
-                    <a href="#">關於品牌</a>
-                </li>
-                <li>
-                    <a href="#">啤酒介紹</a>
-                </li>
-                <li>
-                    <a href="#">美味料理</a>
-                </li>
-                <li>
-                    <a href="#">我要外帶</a>
-                </li>
-                <li>
-                    <a href="#">美味據點</a>
+                <li v-for="li in navli">
+                    <a href="{li.link}">{{li.title}}</a>
                 </li>
             </ul>
         </nav>
@@ -63,23 +49,8 @@
                 </div>
             </label>
             <ul class="menu-list">
-                <li>
-                    <a href="./news.html">最新消息</a>
-                </li>
-                <li>
-                    <a href="./aboutus.html">關於品牌</a>
-                </li>
-                <li>
-                    <a href="./classic-beer.html">啤酒介紹</a>
-                </li>
-                <li>
-                    <a href="./food.html">美味料理</a>
-                </li>
-                <li>
-                    <a href="./takeout.html">我要外帶</a>
-                </li>
-                <li>
-                    <a href="location.html">美味據點</a>
+                <li v-for="li in navli">
+                    <a href="{li.link}">{{li.title}}</a>
                 </li>
             </ul>
         </div>
@@ -99,62 +70,31 @@
             <h1>購物車</h1>
         </i>
         <div class="cart">
-            <div class="pic">
-                <img src="./images/cart_meet.png" alt="無肉不歡拼盤">
-            </div>
-            <div class="txt">
-                <h2>
-                    無肉不歡拼盤
-                    <span>
-                        Meat Lovers Platter
-                    </span>
-                </h2>
-                <div class="order-btn">
-                    <i class="fa-solid fa-circle-minus"></i>
-                    <input class="count" type="text" value="1">
-                    <i class="fa-solid fa-circle-plus"></i>
-                    <i class="fa-solid fa-dollar-sign">990</i>
-                    <i class="fa-solid fa-trash-can"></i>
-                    <span>990</span>
+            <div class="product" v-for="item in productlist">
+                <input type="checkbox">
+                <div class="pic">
+                    <img :src="item.imgsrc" :alt="item.name">
+                </div>
+                <div class="txt">
+                    <h2>
+                        {{item.name}}
+                        <span>
+                            {{item.enname}}
+                        </span>
+                    </h2>
+                    <div class="order-btn">
+                        <i class="fa-solid fa-circle-minus"></i>
+                        <input class="count" type="text" value="1">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <i class="fa-solid fa-dollar-sign">{{item.price}}</i>
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>{{item.price}}</span>
+                    </div>
                 </div>
             </div>
-            <div class="pic">
-                <img src="./images/cart_sau.png" alt="德式綜合香腸">
-            </div>
-            <div class="txt">
-                <h2>
-                    德式綜合香腸
-                    <span>
-                        Assorted German Sausages
-                    </span>
-                </h2>
-                <div class="order-btn">
-                    <i class="fa-solid fa-circle-minus"></i>
-                    <input class="count" type="text" value="1">
-                    <i class="fa-solid fa-circle-plus"></i>
-                    <i class="fa-solid fa-dollar-sign">580</i>
-                    <i class="fa-solid fa-trash-can"></i>
-                    <span>580</span>
-                </div>
-            </div>
-            <div class="pic">
-                <img src="./images/cart_noodle.png" alt="培根奶油寬麵">
-            </div>
-            <div class="txt">
-                <h2>
-                    培根奶油寬麵
-                    <span>
-                        Fettuccine Carbonara
-                    </span>
-                </h2>
-                <div class="order-btn">
-                    <i class="fa-solid fa-circle-minus"></i>
-                    <input class="count" type="txt" value="1">
-                    <i class="fa-solid fa-circle-plus"></i>
-                    <i class="fa-solid fa-dollar-sign">620</i>
-                    <i class="fa-solid fa-trash-can"></i>
-                    <span>620</span>
-                </div>
+            <div class="delete">
+                <input type="checkbox" v-model="selectall">全選
+                <button>刪除選取項目</button>
             </div>
             <span class="total">總金額:<span>2190</span>元
             </span>
@@ -229,25 +169,8 @@
         </div>
         <div class="footer txt">
             <ul>
-                <li>
-                    <a href="#">最新消息</a>
-
-                </li>
-                <li>
-                    <a href="#">關於品牌</a>
-
-                </li>
-                <li>
-                    <a href="#">啤酒介紹</a>
-                </li>
-                <li>
-                    <a href="#">美味料理</a>
-                </li>
-                <li>
-                    <a href="#">我要外帶</a>
-                </li>
-                <li>
-                    <a href="#">美味據點</a>
+                <li v-for="li in navli">
+                    <a href="{li.link}">{{li.title}}</a>
                 </li>
             </ul>
         </div>
@@ -273,7 +196,41 @@
             <p class="tibame">本網站為緯育TibaMe前端班第86期學員專題作品，本平台僅供學習、展示之用。</p>
         </div>
     </div>
+</div>
     <!-- footer結束 -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return {
+                    navli:[
+                        {title:'最新消息',link:"./news.html"},
+                        {title:'關於品牌',link:"./aboutus.html"},
+                        {title:'啤酒介紹',link:"./classic-beer.html"},
+                        {title:'美味料理',link:"./food.html"},
+                        {title:'我要外帶',link:"./takeout.html"},
+                        {title:'美味據點',link:"location.html"},
+                    ],
+                    productlist:[
+                        {name:'無肉不歡拼盤',enname:'Meat Lovers Platter',imgsrc:'./images/cart_meet.png',price:'990'},
+                        {name:'德式綜合香腸',enname:'Assorted German Sausages',imgsrc:'./images/cart_sau.png',price:'580'},
+                        {name:'培根奶油寬麵',enname:'Fettuccine Carbonara',imgsrc:'./images/cart_noodle.png',price:'620'}
+                    ]
+                }
+            },
+            computed: {
+                productlist() {
+                    return [...this.productlist];
+                },
+            },
+            method:{
+                selectall(){
+
+                }
+            }
+            
+        }).mount("#app");
+    </script>
     <script src="./js/shopping-cart.js"></script>
 </body>
 
