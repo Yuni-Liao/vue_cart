@@ -66,10 +66,13 @@
     <div class="cart-container">
         <i class="fa-solid fa-cart-shopping">
             <h1>購物車</h1>
+            <span>商品數量:{{prodCount}}</span>
         </i>
-        <div class="cart">
+        <div class="notthing" v-if="prodCount == 0">
+            <p>未選購商品</p>
+        </div>
+        <div class="cart" v-else>
             <div class="product" v-for="(item,index) in productlist" :key="index">
-                <input type="checkbox"/>
                 <div class="pic">
                     <img :src="item.imgsrc" :alt="item.name">
                 </div>
@@ -82,16 +85,16 @@
                     </h2>
                     <div class="order-btn">
                         <button @click="minus(item,index)">-</button>
-                        <input type="number" v-model="item.count" min="0">
+                        <input type="text" v-model="item.count" min="0">
                         <button @click="plus(item)">+</button>
                         <span>{{item.count}}</span>
                         <i class="fa-solid fa-trash-can" @click="removeCart(index)"></i>
                     </div>
-                    <span>{{price(item.count,item.price)}}</span>
+                    <span>單價:{{item.price}}<br>數量:{{item.count}}<br>單品總額:{{totalprice(item.count,item.price)}}</span>
                 </div>
             </div>
-            <span class="total">總金額:<span>2190</span>元
-            </span>
+            <div class="total">總金額:<span>2190</span>元
+            </div>
         </div>
         <!-- <form action="#" target="_self">
             <div>
@@ -232,7 +235,9 @@
                 }
             },
             computed:{
-                
+                prodCount(){
+                return this.productlist.length
+            }
             },
             methods:{
                 plus(item){
@@ -244,7 +249,7 @@
                     };
                     item.count--;
                 },
-                price(count,price){
+                totalprice(count,price){
                     return count*price;
                 },
                 removeCart(index) {
