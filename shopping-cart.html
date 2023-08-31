@@ -8,7 +8,6 @@
     <!-- style -->
     <link rel="stylesheet" href="./styles/reset.css">
     <link rel="stylesheet" href="./styles/all.css">
-    <link rel="stylesheet" href="./styles/burger.css">
     <link rel="stylesheet" href="./styles/shopping-cart.css">
     <!-- fontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,246 +17,164 @@
 
 <body>
     <div id="app">
-    <header>
-        <div class="pic">
-            <a href="index.html">
-                <img src="./images/miu_logo_gold.svg" alt="Miu Beer">
-            </a>
-        </div>
-        <nav>
-            <ul>
-                <li v-for="li in navli">
-                    <a href="{li.link}">{{li.title}}</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="shopping-cart">
-            <a href="#">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </a>
-        </div>
-        <!-- 漢堡底色與線條 -->
-        <div class="burger-container">
-            <input type="checkbox" id="menu">
-            <label for="menu">
-                <div class="burger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </label>
-            <ul class="menu-list">
-                <li v-for="li in navli">
-                    <a href="{li.link}">{{li.title}}</a>
-                </li>
-            </ul>
-        </div>
-        <!-- 漢堡結束 -->
-    </header>
-    <!-- 立即訂位開始 -->
-    <div class="booking-btn">
-        <a href="#">
-            <img src="./images/booking_sau.png" alt="立即訂位">
-            立即訂位
-        </a>
-    </div>
-    <!-- 立即訂位結束 -->
-    <!-- 購物車內容區 -->
-    <div class="cart-container">
-        <i class="fa-solid fa-cart-shopping">
-            <h1>購物車</h1>
-            <span>商品數量:{{prodCount}}</span>
-        </i>
-        <div class="notthing" v-if="prodCount == 0">
-            <p>未選購商品</p>
-        </div>
-        <div class="cart" v-else>
-            <div class="product" v-for="(item,index) in productlist" :key="index">
-                <div class="pic">
-                    <img :src="item.imgsrc" :alt="item.name">
-                </div>
-                <div class="txt">
-                    <h2>
-                        {{item.name}}
-                        <span>
-                            {{item.enname}}
-                        </span>
-                    </h2>
-                    <div class="order-btn">
-                        <button @click="minus(item,index)">-</button>
-                        <input type="text" v-model="item.count" min="0">
-                        <button @click="plus(item)">+</button>
-                        <span>{{item.count}}</span>
-                        <i class="fa-solid fa-trash-can" @click="removeCart(index)"></i>
+        <header>
+            <div class="pic">
+                <a href="index.html">
+                    <img src="./images/miu_logo_gold.svg" alt="Miu Beer">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li v-for="li in navli">
+                        <a href="{li.link}">{{li.title}}</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="shopping-cart">
+                <a href="#">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </div>
+            <!-- 漢堡底色與線條 -->
+            <div class="burger-container">
+                <input type="checkbox" id="menu">
+                <label for="menu">
+                    <div class="burger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
-                    <span>單價:{{item.price}}<br>數量:{{item.count}}<br>單品總額:{{totalprice(item.count,item.price)}}</span>
+                </label>
+                <ul class="menu-list">
+                    <li v-for="li in navli">
+                        <a href="{li.link}">{{li.title}}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 漢堡結束 -->
+        </header>
+        <!-- 立即訂位開始 -->
+        <div class="booking-btn">
+            <a href="#">
+                <img src="./images/booking_sau.png" alt="立即訂位">
+                立即訂位
+            </a>
+        </div>
+        <!-- 立即訂位結束 -->
+        <!-- 購物車內容區 -->
+        <div class="cart-container">
+            <i class="fa-solid fa-cart-shopping">
+                <h1>購物車</h1>
+                <span>商品數量:{{prodCount}}</span>
+            </i>
+            <div class="notthing" v-if="prodCount == 0">
+                <p>未選購商品</p>
+            </div>
+            <div class="cart" v-else>
+                <div class="product" v-for="(item,index) in productlist" :key="index">
+                    <div class="pic">
+                        <img :src="item.imgsrc" :alt="item.name">
+                    </div>
+                    <div class="txt">
+                        <h2>
+                            {{item.name}}
+                            <span>
+                                {{item.enname}}
+                            </span>
+                        </h2>
+                        <div class="order-btn">
+                            <button @click="minus(item,index)">-</button>
+                            <input type="text" v-model="item.count" min="0">
+                            <button @click="plus(item);showMealName()">+</button>
+                            <span>{{item.count}}</span>
+                            <i class="fa-solid fa-trash-can" @click="removeCart(index)"></i>
+                        </div>
+                        <span>單價:{{item.price}}<br>數量:{{item.count}}<br>單品總額:{{totalprice(item.count,item.price)}}</span>
+                    </div>
+                </div>
+                <div class="total">總金額:<span>{{parsePrice}}</span>元
                 </div>
             </div>
-            <div class="total">總金額:<span>2190</span>元
+            <div class="sumtext">
+                <h3>Summary</h3>
+                <p>{{showMealName}}</p>
             </div>
         </div>
-        <!-- <form action="#" target="_self">
-            <div>
-                <label for="name" required>
-                    訂購姓名:
-                    <input type="text" id="name">
-                </label>
-            </div>
-            <div>
-                <label for="tel" required>
-                    手機號碼:
-                    <input type="tel" id="tel">
-                </label>
-            </div>
-            <div>
-                <label for="date" required>
-                    取餐日期
-                    <input type="date" id="date">
-                </label>
-            </div>
-            <div>
-                <label for="time" required>
-                    取餐時間:
-                    <input type="time" id="time">
-                </label>
-            </div>
-            <div>
-                <label for="shop" required>
-                    取餐據點:
-                    <select name="shop" id="shop">
-                        <option value="">請選擇地點</option>
-                        <option value="">喵皇區|貓皇店</option>
-                        <option value="">喵后區|喵后店</option>
-                    </select>
-                </label>
-            </div>
-            <div>
-                <label for="shop" required>
-                    結帳方式:
-                    <select name="shop" id="shop">
-                        <option value="">請選擇方式</option>
-                        <option value="">轉帳匯款</option>
-                        <option value="">街口支付</option>
-                        <option value="">Line Pay</option>
-                        <option value="">Apple Pay</option>
-                    </select>
-                </label>
-            </div>
-            <div>
-                <label for="msg">其他備註:
-                    <textarea name="msg" id="msg" cols="30" rows="10"
-                        placeholder="有任何需求嗎?可以先寫在這裡哦! (例如:過敏、不需要餐具)"></textarea>
-                </label>
-            </div>
-        </form> -->
-    </div>
-    <div class="cart-tatal">
-
-    </div>
-    <div class="btn">
-        <a class="back" href="#">返回</a>
-        <a class="next" href="#">確認</a>
-    </div>
-    <!-- 地址表單區結束 -->
-    <!-- footer開始 -->
-    <footer>
-        <div class="footer-pic">
-            <a href="index.html">
-                <img src="./images/miu_logo_gold.svg" alt="Miu Beer">
-            </a>
-            <p>本網站為緯育TibaMe前端班第86期學員專題作品，<br>本平台僅供學習、展示之用。</p>
-        </div>
-        <div class="footer txt">
-            <ul>
-                <li v-for="li in navli">
-                    <a href="{li.link}">{{li.title}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="footer-icon">
-            <ul>
-                <li>
-                    <a href="#" class="facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                </li>
-            </ul>
-            <span>追蹤我們，掌握最新消息</span>
-        </div>
-    </footer>
-    <div class="warning-box">
-        <div class="warning-box-txt">
-            <p class="drink">禁止酒駕<img src="./images/footer_drive.gif" alt="禁止酒駕">未滿十八歲 禁止飲酒</p>
-            <p class="tibame">本網站為緯育TibaMe前端班第86期學員專題作品，本平台僅供學習、展示之用。</p>
+        <div class="btn">
+            <a class="back" href="#">返回</a>
+            <a class="next" href="#">確認</a>
         </div>
     </div>
-</div>
-    <!-- footer結束 -->
     <script src="https://unpkg.com/vue@next"></script>
     <script>
         const app = Vue.createApp({
-            data(){
+            data() {
                 return {
-                    navli:[
-                        {title:'最新消息',link:"./news.html"},
-                        {title:'關於品牌',link:"./aboutus.html"},
-                        {title:'啤酒介紹',link:"./classic-beer.html"},
-                        {title:'美味料理',link:"./food.html"},
-                        {title:'我要外帶',link:"./takeout.html"},
-                        {title:'美味據點',link:"location.html"},
+                    navli: [
+                        { title: '最新消息', link: "./news.html" },
+                        { title: '關於品牌', link: "./aboutus.html" },
+                        { title: '啤酒介紹', link: "./classic-beer.html" },
+                        { title: '美味料理', link: "./food.html" },
+                        { title: '我要外帶', link: "./takeout.html" },
+                        { title: '美味據點', link: "location.html" },
                     ],
-                    productlist:[
-                    {name:'無肉不歡拼盤',
-                        enname:'Meat Lovers Platter',
-                        imgsrc:'./images/cart_meet.png',
-                        price:990,
-                        count:1
-                    },
-                    {name:'德式綜合香腸',
-                        enname:'Assorted German Sausages',
-                        imgsrc:'./images/cart_sau.png',
-                        price:580,
-                        count:2
-                    },
-                    {name:'培根奶油寬麵',
-                        enname:'Fettuccine Carbonara',
-                        imgsrc:'./images/cart_noodle.png',
-                        price:620,
-                        count:1
-                    }
+                    productlist: [
+                        {
+                            name: '無肉不歡拼盤',
+                            enname: 'Meat Lovers Platter',
+                            imgsrc: './images/cart_meet.png',
+                            price: 990,
+                            count: 1
+                        },
+                        {
+                            name: '德式綜合香腸',
+                            enname: 'Assorted German Sausages',
+                            imgsrc: './images/cart_sau.png',
+                            price: 580,
+                            count: 2
+                        },
+                        {
+                            name: '培根奶油寬麵',
+                            enname: 'Fettuccine Carbonara',
+                            imgsrc: './images/cart_noodle.png',
+                            price: 620,
+                            count: 1
+                        }
                     ],
-                    
+
                 }
             },
-            computed:{
-                prodCount(){
-                return this.productlist.length
-            }
+            computed: {
+                prodCount() {
+                    return this.productlist.length
+                }
             },
-            methods:{
-                plus(item){
+            methods: {
+                plus(item) {
                     item.count++;
                 },
-                minus(item,index){
-                    if(item.count <= 1){
-                        this.productlist.splice(index,1)
+                minus(item, index) {
+                    if (item.count <= 1) {
+                        this.productlist.splice(index, 1)
                     };
                     item.count--;
                 },
-                totalprice(count,price){
-                    return count*price;
+                totalprice(count, price) {
+                    return count * price;
                 },
                 removeCart(index) {
-                this.productlist.splice(index, 1);
+                    this.productlist.splice(index, 1);
                 },
+                showMealName(item) {
+                    // sum清單
+                    const itemPrice = Number(item.price * this.item.count);
+                    const inputValue = Number(this.item.count);
+                    const mealNameAndPrice = '';
+                    this.mealNameAndPrice = `${item.name} - $${itemPrice} - 數量:${inputValue}`;
+                }
             }
         }).mount("#app");
-        
+
     </script>
     <!-- <script src="./js/shopping-cart.js"></script> -->
 </body>
