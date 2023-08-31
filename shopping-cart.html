@@ -93,7 +93,7 @@
                     <span>單價:{{item.price}}<br>數量:{{item.count}}<br>單品總額:{{totalprice(item.count,item.price)}}</span>
                 </div>
             </div>
-            <div class="total">總金額:<span>2190</span>元
+            <div class="total">總金額:<span>{{parsePrice}}</span>元
             </div>
         </div>
         <!-- <form action="#" target="_self">
@@ -237,8 +237,15 @@
             computed:{
                 prodCount(){
                 return this.productlist.length
-            }
             },
+            parsePrice(){
+                let total = 0
+                for (let index = 0; index < this.productlist.length; index++) {
+                    const accumulator = this.productlist[index].price * this.productlist[index].count
+                    total += accumulator 
+                }
+                return total;
+            }},
             methods:{
                 plus(item){
                     item.count++;
@@ -255,6 +262,9 @@
                 removeCart(index) {
                 this.productlist.splice(index, 1);
                 },
+                allPrice(){
+
+                }
             }
         }).mount("#app");
         
