@@ -1,6 +1,6 @@
 /* 購物車內容區開始 */
 .notthing{
-    margin: 2rem;
+    margin: 3rem;
 }
 .cart .product{
 margin: 20px;
@@ -22,12 +22,13 @@ line-height: 1.5;
     justify-content: flex-start;
     position: relative;
     border-radius: 10px;
+    justify-content: space-between
 }
 
 .cart-container .total{
     position: absolute;
     bottom: 3%;
-    left: 50%;
+    left: 83%;
     font-size: 1.1rem;
     color: #333;
 }
@@ -48,36 +49,6 @@ line-height: 1.5;
 .cart-container .fa-solid h1{
     display: inline-block;
     margin-left: 10px;
-}
-
-.btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.btn .next{
-    display: inline-block;
-    color: #fff;
-    text-align: center;
-    text-decoration: none;
-    background-color:#5E5E90;
-    width: 40px;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-    box-shadow: 3px 3px 10px #000;
-}
-
-.btn .back{
-    display: inline-block;
-    width: 40px;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
 }
 
 .cart-container .cart{
@@ -161,19 +132,21 @@ line-height: 1.5;
 /* 購物車內容區結束 */
 
 /* summary */
-.cart-container .sumtext{
+.cart-container .summary{
+    min-width: 200px;
     border-left: 3px solid #999999;
     height: auto;
 }
 
-.cart-container .sumtext h3{
-    color: #333;
-    font-size: 1.5rem;
+.cart-container .summary .sumtext h3{
+    color: transparent;
+    -webkit-text-stroke:3px rgba(0, 0, 0, 0.15);
+    font-size: 2.5rem;
     background-color: #C3C3D6;
-    line-height: 2.5;
-    padding: 30px;
+    padding-left: 30px;
+    
 }
-.cart-container .sumtext p{
+.cart-container .summary .sumtext p{
     color: #333;
     font-size: 1.2rem;
     background-color: #C3C3D6;
@@ -181,7 +154,7 @@ line-height: 1.5;
     padding: 30px;
 }
 
-.cart-container .sumtext span{
+.cart-container .summary .sumtext span{
     display: inline-block;
     color: #333;
     font-size: 1.2rem;
