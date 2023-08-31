@@ -35,23 +35,6 @@
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
             </div>
-            <!-- 漢堡底色與線條 -->
-            <div class="burger-container">
-                <input type="checkbox" id="menu">
-                <label for="menu">
-                    <div class="burger">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </label>
-                <ul class="menu-list">
-                    <li v-for="li in navli">
-                        <a href="{li.link}">{{li.title}}</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- 漢堡結束 -->
         </header>
         <!-- 立即訂位開始 -->
         <div class="booking-btn">
@@ -85,7 +68,7 @@
                         <div class="order-btn">
                             <button @click="minus(item,index)">-</button>
                             <input type="text" v-model="item.count" min="0">
-                            <button @click="plus(item);showMealName()">+</button>
+                            <button @click="plus(item);showMealName(item)">+</button>
                             <span>{{item.count}}</span>
                             <i class="fa-solid fa-trash-can" @click="removeCart(index)"></i>
                         </div>
@@ -97,86 +80,90 @@
             </div>
             <div class="sumtext">
                 <h3>Summary</h3>
-                <p>{{showMealName}}</p>
+                <div class="product" v-for="(item,index) in productlist" :key="index">
+                    <p>
+                        {{item.name}}
+                        <span>{{item.count}}</span>
+                        <span>${{this.totalprice(item.count, item.price)}}</span>
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="btn">
-            <a class="back" href="#">返回</a>
-            <a class="next" href="#">確認</a>
-        </div>
-    </div>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script>
-        const app = Vue.createApp({
-            data() {
-                return {
-                    navli: [
-                        { title: '最新消息', link: "./news.html" },
-                        { title: '關於品牌', link: "./aboutus.html" },
-                        { title: '啤酒介紹', link: "./classic-beer.html" },
-                        { title: '美味料理', link: "./food.html" },
-                        { title: '我要外帶', link: "./takeout.html" },
-                        { title: '美味據點', link: "location.html" },
-                    ],
-                    productlist: [
-                        {
-                            name: '無肉不歡拼盤',
-                            enname: 'Meat Lovers Platter',
-                            imgsrc: './images/cart_meet.png',
-                            price: 990,
-                            count: 1
-                        },
-                        {
-                            name: '德式綜合香腸',
-                            enname: 'Assorted German Sausages',
-                            imgsrc: './images/cart_sau.png',
-                            price: 580,
-                            count: 2
-                        },
-                        {
-                            name: '培根奶油寬麵',
-                            enname: 'Fettuccine Carbonara',
-                            imgsrc: './images/cart_noodle.png',
-                            price: 620,
-                            count: 1
+            <script src="https://unpkg.com/vue@next"></script>
+            <script>
+                const app = Vue.createApp({
+                    data() {
+                        return {
+                            navli: [
+                                { title: '最新消息', link: "./news.html" },
+                                { title: '關於品牌', link: "./aboutus.html" },
+                                { title: '啤酒介紹', link: "./classic-beer.html" },
+                                { title: '美味料理', link: "./food.html" },
+                                { title: '我要外帶', link: "./takeout.html" },
+                                { title: '美味據點', link: "location.html" },
+                            ],
+                            productlist: [
+                                {
+                                    name: '無肉不歡拼盤',
+                                    enname: 'Meat Lovers Platter',
+                                    imgsrc: './images/cart_meet.png',
+                                    price: 990,
+                                    count: 1
+                                },
+                                {
+                                    name: '德式綜合香腸',
+                                    enname: 'Assorted German Sausages',
+                                    imgsrc: './images/cart_sau.png',
+                                    price: 580,
+                                    count: 2
+                                },
+                                {
+                                    name: '培根奶油寬麵',
+                                    enname: 'Fettuccine Carbonara',
+                                    imgsrc: './images/cart_noodle.png',
+                                    price: 620,
+                                    count: 1
+                                }
+                            ],
+                            mealNameAndPrice: '',
                         }
-                    ],
+                    },
+                    computed: {
+                        prodCount() {
+                            return this.productlist.length
+                        },
+                        parsePrice() {
+                            let total = 0
+                            for (let index = 0; index < this.productlist.length; index++) {
+                                const accumulator = this.productlist[index].price * this.productlist[index].count
+                                total += accumulator
+                            }
+                            return total;
+                        }
+                    },
+                    methods: {
+                        plus(item) {
+                            item.count++;
+                        },
+                        minus(item, index) {
+                            if (item.count <= 1) {
+                                this.productlist.splice(index, 1)
+                            };
+                            item.count--;
+                        },
+                        totalprice(count, price) {
+                            return count * price;
+                        },
+                        removeCart(index) {
+                            this.productlist.splice(index, 1);
+                        },
+                        showMealName(item) {
+                            const itemPrice = Number(item.price * item.count);
+                            this.mealNameAndPrice = `${item.name} - $${this.totalprice(item.count, item.price)} - 數量:${item.count}`;
+                        }
+                    }
+                }).mount("#app");
 
-                }
-            },
-            computed: {
-                prodCount() {
-                    return this.productlist.length
-                }
-            },
-            methods: {
-                plus(item) {
-                    item.count++;
-                },
-                minus(item, index) {
-                    if (item.count <= 1) {
-                        this.productlist.splice(index, 1)
-                    };
-                    item.count--;
-                },
-                totalprice(count, price) {
-                    return count * price;
-                },
-                removeCart(index) {
-                    this.productlist.splice(index, 1);
-                },
-                showMealName(item) {
-                    // sum清單
-                    const itemPrice = Number(item.price * this.item.count);
-                    const inputValue = Number(this.item.count);
-                    const mealNameAndPrice = '';
-                    this.mealNameAndPrice = `${item.name} - $${itemPrice} - 數量:${inputValue}`;
-                }
-            }
-        }).mount("#app");
-
-    </script>
-    <!-- <script src="./js/shopping-cart.js"></script> -->
+            </script>
 </body>
 
 </html>

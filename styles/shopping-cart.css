@@ -14,7 +14,7 @@ line-height: 1.5;
 }
 .cart-container{
     background-color: #C3C3D6;
-    margin: 150px auto 10px;
+    margin: 75px auto 10px;
     padding: 30px;
     max-width: 1200px;
     display: flex;
@@ -174,10 +174,18 @@ line-height: 1.5;
     padding: 30px;
 }
 .cart-container .sumtext p{
-    /* width: 350px; */
     color: #333;
-    font-size: 1rem;
+    font-size: 1.2rem;
     background-color: #C3C3D6;
     line-height: 2.5;
     padding: 30px;
+}
+
+.cart-container .sumtext span{
+    display: inline-block;
+    color: #333;
+    font-size: 1.2rem;
+    background-color: #C3C3D6;
+    line-height: 2.5;
+    padding: 5px;
 }
